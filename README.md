@@ -1,268 +1,191 @@
-# KnowledgeHub Backend
-
-A fully functional, production-ready backend for a Wikipedia-style knowledge-sharing platform built with Node.js, Express.js, and MongoDB.
-
-KnowledgeHub is designed to support article publishing, user interaction, moderation workflows, and secure role-based access. The backend provides scalable REST APIs for authentication, content management, comments, bookmarks, and administration.
+Here’s a more natural, human-written version of your README with a smoother tone and the **license section removed**, while keeping it clean and professional:
 
 ---
 
-## Disclaimer
+# KnowledgeHub Backend
 
-This project was developed for academic submission purposes under the SESD subject. While the backend is fully functional and follows industry-standard practices, it is intended primarily for learning, demonstration, and evaluation purposes.
+This is a backend system for a Wikipedia-style knowledge-sharing platform built using Node.js, Express, and MongoDB.
+
+The goal of KnowledgeHub is to provide a space where users can create, share, and explore articles, while also supporting moderation, user roles, and secure access. The backend exposes a set of REST APIs that handle everything from authentication to content management and admin controls.
+
+---
+
+## About the Project
+
+This project was created as part of an academic submission for the SESD subject. While it follows good development practices and is fully functional, its primary purpose is learning, experimentation, and demonstration.
 
 ---
 
 ## Tech Stack
 
+The backend is built using:
+
 * Node.js
 * Express.js
 * MongoDB
 * Mongoose
-* JWT Authentication
-* Bcrypt.js
-* Nodemon
+* JWT (for authentication)
+* bcrypt.js (for password security)
 * dotenv
+* Nodemon
 
 ---
 
-## Core Features
+## Key Features
 
 ### Authentication & Security
 
-* Secure JWT-based authentication
-* Password hashing using bcrypt
-* Protected routes using middleware
-* Role-based access control for different user types
+* Secure login and signup using JWT
+* Passwords are hashed using bcrypt
+* Middleware-based route protection
+* Role-based access control
+
+---
 
 ### User Roles
 
-The platform supports three major user roles:
+There are three types of users in the system:
 
-* `reader`
+* **Reader**
 
-  * Can view articles
-  * Can comment and bookmark articles
+  * Can browse articles
+  * Can comment and bookmark content
 
-* `author`
+* **Author**
 
   * Can create, edit, and delete their own articles
   * Can submit articles for review
 
-* `admin`
+* **Admin**
 
   * Can manage users
   * Can approve or reject articles
-  * Can moderate platform activity
+  * Can monitor and moderate platform activity
+
+---
 
 ### Article Management
 
 * Create, edit, delete, and fetch articles
-* Rich text article support
-* Draft, pending, approved, and rejected article states
-* Category-wise article filtering
+* Support for rich text content
+* Multiple article states: draft, pending, approved, rejected
+* Category-based filtering
 * Trending articles section
-* Search functionality using keywords
-* Author-specific article management
+* Keyword-based search
+* Author-specific article control
+
+---
 
 ### Comments & Bookmarks
 
-* Add comments to articles
-* Delete comments
-* Bookmark articles for later access
-* Retrieve user bookmarks
+* Add and delete comments on articles
+* Save articles as bookmarks
+* Retrieve saved articles for each user
 
-### Admin Dashboard Features
+---
 
-* Review all registered users
-* Approve or reject pending articles
-* Delete users if necessary
-* Moderate platform content
+### Admin Capabilities
+
+* View all registered users
+* Review and moderate submitted articles
+* Approve or reject content
+* Remove users if required
 
 ---
 
 ## Project Structure
 
-```text
+```
 backend/
 │
-├── config/              # Database connection and environment setup
-├── controllers/         # Route logic and business logic
-├── middleware/          # Authentication and role middleware
-├── models/              # Mongoose schemas and models
-├── routes/              # API route definitions
-├── utils/               # Utility/helper functions
-├── .env                 # Environment variables
-├── .env.example         # Sample environment variables
-├── server.js            # Main application entry point
+├── config/          # Database and environment configuration
+├── controllers/     # Business logic for routes
+├── middleware/      # Authentication and role checks
+├── models/          # Database schemas
+├── routes/          # API route definitions
+├── utils/           # Helper functions
+├── .env             # Environment variables
+├── .env.example     # Sample env file
+├── server.js        # Entry point
 ├── package.json
 └── README.md
 ```
 
 ---
 
-## API Endpoints
+## API Overview
 
-### Authentication APIs
+### Authentication
 
-| Method | Endpoint             | Description                       |
-| ------ | -------------------- | --------------------------------- |
-| POST   | `/api/auth/register` | Register a new user               |
-| POST   | `/api/auth/login`    | Login user and generate JWT token |
-| GET    | `/api/auth/profile`  | Fetch logged-in user profile      |
-
-### Article APIs
-
-| Method | Endpoint                             | Description                |
-| ------ | ------------------------------------ | -------------------------- |
-| POST   | `/api/articles`                      | Create a new article       |
-| GET    | `/api/articles`                      | Fetch all public articles  |
-| GET    | `/api/articles/search?q=keyword`     | Search articles by keyword |
-| GET    | `/api/articles/trending`             | Fetch trending articles    |
-| GET    | `/api/articles/category/:categoryId` | Fetch articles by category |
-| GET    | `/api/articles/:id`                  | Fetch single article by ID |
-| PUT    | `/api/articles/:id`                  | Update article             |
-| DELETE | `/api/articles/:id`                  | Delete article             |
-
-### Comment APIs
-
-| Method | Endpoint                   | Description                   |
-| ------ | -------------------------- | ----------------------------- |
-| POST   | `/api/comments`            | Add a comment                 |
-| GET    | `/api/comments/:articleId` | Fetch comments for an article |
-| DELETE | `/api/comments/:id`        | Delete a comment              |
-
-### Bookmark APIs
-
-| Method | Endpoint                      | Description                  |
-| ------ | ----------------------------- | ---------------------------- |
-| POST   | `/api/bookmarks`              | Add article to bookmarks     |
-| DELETE | `/api/bookmarks/:id`          | Remove bookmark              |
-| GET    | `/api/bookmarks/user/:userId` | Get all bookmarks for a user |
-
-### Admin APIs
-
-| Method | Endpoint                      | Description                |
-| ------ | ----------------------------- | -------------------------- |
-| GET    | `/api/admin/users`            | Fetch all users            |
-| GET    | `/api/admin/pending-articles` | Fetch all pending articles |
-| PUT    | `/api/admin/approve/:id`      | Approve an article         |
-| PUT    | `/api/admin/reject/:id`       | Reject an article          |
-| DELETE | `/api/admin/user/:id`         | Delete a user              |
+* `POST /api/auth/register` → Register a user
+* `POST /api/auth/login` → Login and get token
+* `GET /api/auth/profile` → Get user profile
 
 ---
 
-## Authentication Flow
+### Articles
 
-1. User registers using the register endpoint.
-2. Password is hashed before storing in the database.
-3. User logs in using valid credentials.
-4. JWT token is generated and returned.
-5. Protected APIs require the token in the Authorization header.
+* `POST /api/articles` → Create article
+* `GET /api/articles` → Get all articles
+* `GET /api/articles/search?q=keyword` → Search articles
+* `GET /api/articles/trending` → Trending content
+* `GET /api/articles/category/:categoryId` → Filter by category
+* `GET /api/articles/:id` → Get single article
+* `PUT /api/articles/:id` → Update article
+* `DELETE /api/articles/:id` → Delete article
 
-Example:
+---
 
-```http
+### Comments
+
+* `POST /api/comments` → Add comment
+* `GET /api/comments/:articleId` → Get comments
+* `DELETE /api/comments/:id` → Delete comment
+
+---
+
+### Bookmarks
+
+* `POST /api/bookmarks` → Save article
+* `DELETE /api/bookmarks/:id` → Remove bookmark
+* `GET /api/bookmarks/user/:userId` → Get user bookmarks
+
+---
+
+### Admin
+
+* `GET /api/admin/users` → Get all users
+* `GET /api/admin/pending-articles` → View pending articles
+* `PUT /api/admin/approve/:id` → Approve article
+* `PUT /api/admin/reject/:id` → Reject article
+* `DELETE /api/admin/user/:id` → Delete user
+
+---
+
+## How Authentication Works
+
+1. User signs up through the register API
+2. Password is securely hashed before storage
+3. User logs in and receives a JWT token
+4. This token is used to access protected routes
+
+Example header:
+
+```
 Authorization: Bearer your_jwt_token
 ```
 
 ---
 
-## Environment Variables
+## Environment Setup
 
-Create a `.env` file inside the backend directory and add the following variables:
+Create a `.env` file inside the backend folder and add:
 
-```env
+```
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 NODE_ENV=development
 ```
 
----
 
-## Installation & Setup
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/knowledgehub-backend.git
-cd knowledgehub-backend/backend
-```
-
-### 2. Install Dependencies
-
-```bash
-npm install
-```
-
-### 3. Configure Environment Variables
-
-Copy the example environment file:
-
-```bash
-cp .env.example .env
-```
-
-Then update the values in the `.env` file.
-
-### 4. Run the Development Server
-
-```bash
-npm run dev
-```
-
-### 5. Run in Production Mode
-
-```bash
-npm start
-```
-
----
-
-## Future Enhancements
-
-* Image upload support for articles
-* Email verification and password reset
-* Article likes and reactions
-* Notification system
-* Article version history
-* Analytics dashboard for admins
-* API rate limiting and enhanced security
-* Deployment using Docker and cloud platforms
-
----
-
-## Testing Suggestions
-
-You can test the APIs using:
-
-* Postman
-* Thunder Client
-* Insomnia
-
-Make sure to test:
-
-* Authentication flows
-* Role-based access
-* CRUD operations
-* Admin moderation features
-* Bookmark and comment functionalities
-
----
-
-## Contribution
-
-Contributions, suggestions, and improvements are always welcome.
-
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Commit your code
-5. Push to your branch
-6. Create a pull request
-
----
-
-## License
-
-This project is intended for educational and academic use only.
