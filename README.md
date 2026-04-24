@@ -1,14 +1,8 @@
-Here’s a more natural, human-written version of your README with a smoother tone and the **license section removed**, while keeping it clean and professional:
-
----
-
 # KnowledgeHub Backend
 
 This is a backend system for a Wikipedia-style knowledge-sharing platform built using Node.js, Express, and MongoDB.
 
 The goal of KnowledgeHub is to provide a space where users can create, share, and explore articles, while also supporting moderation, user roles, and secure access. The backend exposes a set of REST APIs that handle everything from authentication to content management and admin controls.
-
----
 
 ## About the Project
 
